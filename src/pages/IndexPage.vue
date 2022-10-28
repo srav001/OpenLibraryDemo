@@ -20,6 +20,7 @@ const loading = ref(false);
 const searchForBooksByTitle = async () => {
 	try {
 		loading.value = true;
+		errorObj.flag = false;
 		const { data: result } = await axios.get('http://openlibrary.org/search.json', {
 			params: {
 				title: bookTitle.value
@@ -32,7 +33,7 @@ const searchForBooksByTitle = async () => {
 		booksStore.setTopTenFromSeachResults();
 
 		router.push('/list');
-		
+
 	} catch (error) {
 		errorObj.flag = true;
 		errorObj.data = error;

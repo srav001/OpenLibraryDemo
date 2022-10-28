@@ -12,6 +12,7 @@ module.exports = {
 		'no-console': process.env.NODE_ENV === 'production' ? 'off' : 'warn',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'off' : 'warn',
 		'vue/no-deprecated-slot-attribute': 'off',
+		'import/prefer-default-export': 'off',
 		'import/extensions': [
 			2,
 			{

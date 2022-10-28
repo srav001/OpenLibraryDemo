@@ -1,11 +1,17 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { useBooksStore } from '../stores/books';
 
 const booksStore = useBooksStore();
 const router = useRouter();
+
+const errorObj = reactive({
+	flag: false,
+	msg: '',
+	data: {}
+});
 
 const bookTitle = ref('');
 const loading = ref(false);
@@ -18,15 +24,27 @@ const searchForBooksByTitle = () => {
 				title: bookTitle.value
 			}
 		})
+		// eslint-disable-next-line consistent-return
 		.then(response => {
 			const { data: result } = response;
+
+			if (result.docs.length === 0) {
+				errorObj.flag = true;
+				errorObj.msg = 'Oops... No books found. Please try again.';
+				return false;
+			}
+
 			booksStore.searchResults = result.docs;
 			booksStore.setTopTenFromSeachResults();
 
 			router.push('/list');
 		})
 		.catch(error => {
-			console.error(error);
+			errorObj.flag = true;
+			errorObj.data = error;
+
+			if (bookTitle.value === '') errorObj.msg = 'Please enter book title to search';
+			else errorObj.msg = 'Oops... an error occured. ';
 		})
 		.finally(() => {
 			loading.value = false;
@@ -68,6 +86,7 @@ const searchForBooksByTitle = () => {
 					</button>
 				</div>
 			</form>
+			<h3 v-if="errorObj.flag === true" class="text-center text-red-600 mt-10">{{ errorObj.msg }}</h3>
 		</div>
 	</div>
 </template>

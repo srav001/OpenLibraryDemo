@@ -16,39 +16,34 @@ const errorObj = reactive({
 const bookTitle = ref('');
 const loading = ref(false);
 // Making an API call to the Open Library API to search for books by title.
-const searchForBooksByTitle = () => {
-	loading.value = true;
-	axios
-		.get('http://openlibrary.org/search.json', {
+// eslint-disable-next-line consistent-return
+const searchForBooksByTitle = async () => {
+	try {
+		loading.value = true;
+		const { data: result } = await axios.get('http://openlibrary.org/search.json', {
 			params: {
 				title: bookTitle.value
 			}
-		})
-		// eslint-disable-next-line consistent-return
-		.then(response => {
-			const { data: result } = response;
-
-			if (result.docs.length === 0) {
-				errorObj.flag = true;
-				errorObj.msg = 'Oops... No books found. Please try again.';
-				return false;
-			}
-
-			booksStore.searchResults = result.docs;
-			booksStore.setTopTenFromSeachResults();
-
-			router.push('/list');
-		})
-		.catch(error => {
-			errorObj.flag = true;
-			errorObj.data = error;
-
-			if (bookTitle.value === '') errorObj.msg = 'Please enter book title to search';
-			else errorObj.msg = 'Oops... an error occured. ';
-		})
-		.finally(() => {
-			loading.value = false;
 		});
+
+		if (result.docs.length === 0) throw new Error('EMPTY_TITLE');
+
+		booksStore.searchResults = result.docs;
+		booksStore.setTopTenFromSeachResults();
+
+		router.push('/list');
+		
+	} catch (error) {
+		errorObj.flag = true;
+		errorObj.data = error;
+
+		if (error.message === 'EMPTY_TITLE') errorObj.msg = 'Oops... No books found. Please try again.';
+		else if (bookTitle.value === '') errorObj.msg = 'Please enter book title to search';
+		else errorObj.msg = 'Oops... an error occured. ';
+
+	} finally {
+		loading.value = false;
+	}
 };
 </script>
 

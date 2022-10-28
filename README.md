@@ -1,5 +1,5 @@
 # open-library-demo
-This web app use Vue 3 and Vite primarily. Also has Pinia for state management, Vue-router for routing, Lodash for some JS utility functions, axios for API calls and Unocss for a little css to make the UI cleaner.
+This web app use Vue 3 and Vite primarily. Also has Pinia for state management, Vue-router for routing, Lodash for some JS utility functions, axios for API calls and Unocss(Mainly Tailwind classes) for a little css to make the UI neat.
 
 
 ## Technologies Needed
@@ -8,7 +8,7 @@ Node JS: version 16 or above.
 
 ## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur if present) 
 
 ## Project Setup
 
@@ -16,7 +16,7 @@ Node JS: version 16 or above.
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Check Demo
 
 ```sh
 npm run dev

@@ -15,12 +15,17 @@ const errorObj = reactive({
 
 const bookTitle = ref('');
 const loading = ref(false);
-// Making an API call to the Open Library API to search for books by title.
+
+// A function that is called when the form is submitted. It makes an API call to the Open Library API
+// to search for books by title. It then sets the search results to the books store and sets the top
+// ten books from the search results. It then redirects to the list page.
 // eslint-disable-next-line consistent-return
 const searchForBooksByTitle = async () => {
 	try {
+
 		loading.value = true;
 		errorObj.flag = false;
+
 		const { data: result } = await axios.get('http://openlibrary.org/search.json', {
 			params: {
 				title: bookTitle.value
